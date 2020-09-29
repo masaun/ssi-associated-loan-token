@@ -42,4 +42,26 @@ $ npm run test:rinkeby
 ***
 
 ## 【References】
-- 
+- [ETH Planet Hackathon / “Building the Next Digital World”]
+  - Website
+    https://ethplanet-hackathon.devfolio.co
+  
+  - https://medium.com/ethplanet/ethplanet-hackathon-building-the-next-digital-world-2d0246027d78
+
+<br>
+
+- [Truefi]
+  - Chainlink-workshop repo
+    https://github.com/hal909/chainlink-workshop
+  
+  - Workshop
+    https://youtu.be/JjotxeoVRuE
+
+  - Loan Token
+    https://github.com/trusttoken/truefi-spec#loantoken
+  
+  - Trust-Token contract
+    https://github.com/trusttoken/true-currencies/tree/master/contracts/trusttoken
+  
+  - Fund raising
+    https://github.com/trusttoken/truefi-spec#loantoken-lifecycle
