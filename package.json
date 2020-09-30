@@ -13,17 +13,15 @@
     "console:rinkeby": "truffle console --network rinkeby",
     "compile:rinkeby": "truffle compile --reset --network rinkeby",
     "migrate:rinkeby": "truffle migrate --reset --network rinkeby",
-    "migrate:local": "truffle migrate --reset --network local"    
+    "migrate:local": "truffle migrate --reset --network local"
   },
   "author": "masaun",
   "license": "MIT",
   "dependencies": {
-    "@chainlink/contracts": "0.0.10",
-    "@openzeppelin/contracts": "^3.1.0",
-    "@truffle/hdwallet-provider": "^1.0.29",
+    "@openzeppelin/contracts": "^3.2.0",
+    "@truffle/hdwallet-provider": "^1.1.0",
     "dotenv": "^8.2.0",
-    "eth-block-tracker": "^4.4.3",
-    "ethers": "5.0.14"
+    "eth-block-tracker": "^4.4.3"
   },
   "devDependencies": {}
 }
