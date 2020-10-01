@@ -9,7 +9,7 @@ import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
 /**
  * @dev - LendingPool Factory Contract for Chainlink workshop 
  */
-contract LendingPoolFactory is LendingPool {
+abstract contract LendingPoolFactory is LendingPool {
     using SafeMath for uint256;
 
     // Ropsten testnet

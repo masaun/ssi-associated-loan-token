@@ -15,7 +15,7 @@ import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
  * - Can't withdraw if pool lacks liquidity
  * - No reserve
  */
-abstract contract LendingPool is ILendingPool, ERC20 {
+contract LendingPool is ILendingPool, ERC20 {
     using SafeMath for uint256;
 
     /* contracts */
@@ -65,12 +65,10 @@ abstract contract LendingPool is ILendingPool, ERC20 {
     mapping(address => User) users;
 
     // Ropsten testnet
-    constructor(address _tusd, address _link, address _linkPriceFeed) public {
-        tusd = IERC20(_tusd);
-        link = IERC20(_link);
-
-        linkPriceFeed = AggregatorV3Interface(_linkPriceFeed);
-        
+    constructor() public {
+        tusd = IERC20(0xB36938c51c4f67e5E1112eb11916ed70A772bD75);
+        link = IERC20(0x20fE562d797A42Dcb3399062AE9546cd06f63280);
+        linkPriceFeed = AggregatorV3Interface(0x40c9885aa8213B40e3E8a0a9aaE69d4fb5915a3A);
         totalBorrow = 0;
         totalCollateral = 0;
         rate = 100000000000000000;      // 0.1
@@ -78,19 +76,19 @@ abstract contract LendingPool is ILendingPool, ERC20 {
     }
 
     // get TUSD balance of this contract
-    function balance() public override view returns (uint256) {
+    function balance() public view returns (uint256) {
         return tusd.balanceOf(address(this));
     }
 
     // get price of interest bearing token
-    function exchangeRate() public override view returns (uint256) {
+    function exchangeRate() public view returns (uint256) {
         // exchange rate = (TUSD balance + total borrowed) / supply
         totalBorrow.add(balance()).div(totalSupply());
     }
 
     // mint interest bearing TUSD
     // @param amount TUSD amount
-    function mint(uint256 amount) public override {
+    function mint(uint256 amount) public {
         require(tusd.transferFrom(msg.sender, address(this), amount), "insufficient TUSD");
         uint256 value = amount.div(exchangeRate());
         // amount of tokens based on total interest earned by pool
@@ -99,7 +97,7 @@ abstract contract LendingPool is ILendingPool, ERC20 {
 
     // redeem pool tokens for TUSD
     // @param amount zToken amonut
-    function redeem(uint256 amount) public override {
+    function redeem(uint256 amount) public {
         require(balanceOf(msg.sender) >= amount, "not enough balance");
         require(balance().sub(amount) >= totalBorrow, "pool lacks liquidity");
         // calculate underlying value of pool tokens
@@ -111,7 +109,7 @@ abstract contract LendingPool is ILendingPool, ERC20 {
     }
 
     // deposit LINK to use as collateral to borrow
-    function deposit(uint256 amount) public override {
+    function deposit(uint256 amount) public {
         require(link.transferFrom(msg.sender, address(this), amount), "insufficient LINK");
         User storage user = users[msg.sender];
         user.collateral.add(amount);
@@ -120,7 +118,7 @@ abstract contract LendingPool is ILendingPool, ERC20 {
 
     // withdraw LINK used as collateral
     // could cause user to be undercollateralized
-    function withdraw(uint256 amount) public override {
+    function withdraw(uint256 amount) public {
         User storage user = users[msg.sender];
         require(user.collateral >= amount, "insufficient collateral");
         totalCollateral.sub(amount);
@@ -128,7 +126,7 @@ abstract contract LendingPool is ILendingPool, ERC20 {
     }
 
     // borrow TUSD using LINK as collateral
-    function borrow(uint256 amount) public override {
+    function borrow(uint256 amount) public {
         User storage user = users[msg.sender];
         require(amount >= balance(), "not enough liquidity to borrow");
         require(calculateRatio(user.borrow.add(amount), user.collateral) > ratio, "too much borrow");
@@ -136,7 +134,7 @@ abstract contract LendingPool is ILendingPool, ERC20 {
     }
 
     // repay TUSD debt
-    function repay(uint256 amount) public override {
+    function repay(uint256 amount) public {
         User storage user = users[msg.sender];
         require(user.borrow <= amount, "cannot repay more than borrowed");
         require(tusd.transferFrom(msg.sender, address(this), amount), "insufficient TUSD to repay");
@@ -154,12 +152,12 @@ abstract contract LendingPool is ILendingPool, ERC20 {
         return _debt(account);
     }
 
-    function _updateAccount(address account) internal override {
+    function _updateAccount(address account) internal {
         // TODO
     }
 
     // update oracle prices and total interest earned
-    function update() public override {
+    function update() public {
         // only update if at least one interval has passed
         if (lastUpdated.add(INTERVAL) <= block.timestamp) {
             // calculate time passed
@@ -187,7 +185,7 @@ abstract contract LendingPool is ILendingPool, ERC20 {
     }
 
     // liquidate account ETH if below threshold
-    function liquidate(address account, uint256 amount) public override {
+    function liquidate(address account, uint256 amount) public {
         update();
         User memory user = users[account];
         require(user.borrow !=0, "account has not borrowed");
