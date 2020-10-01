@@ -64,11 +64,13 @@ abstract contract LendingPool is ILendingPool, ERC20 {
     // store users of this smart contract
     mapping(address => User) users;
 
-    // ropsten testnet
-    constructor() public {
-        tusd = IERC20(0xB36938c51c4f67e5E1112eb11916ed70A772bD75);
-        link = IERC20(0x20fE562d797A42Dcb3399062AE9546cd06f63280);
-        linkPriceFeed = AggregatorV3Interface(0x40c9885aa8213B40e3E8a0a9aaE69d4fb5915a3A);
+    // Ropsten testnet
+    constructor(address _tusd, address _link, address _linkPriceFeed) public {
+        tusd = IERC20(_tusd);
+        link = IERC20(_link);
+
+        linkPriceFeed = AggregatorV3Interface(_linkPriceFeed);
+        
         totalBorrow = 0;
         totalCollateral = 0;
         rate = 100000000000000000;      // 0.1
