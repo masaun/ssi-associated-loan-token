@@ -1,4 +1,4 @@
-const LoanToken = artifacts.require("LoanToken");
+const LoanTokenFactory = artifacts.require("LoanTokenFactory");
 
 module.exports = function(deployer) {
     deployer.deploy(LoanToken);
