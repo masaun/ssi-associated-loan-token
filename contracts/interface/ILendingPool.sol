@@ -40,7 +40,7 @@ interface ILendingPool {
     function repay(uint256 amount) external;
 
     // update on changes to user account
-    function _updateAccount(address account) external;
+    //function _updateAccount(address account) external;
 
     // update oracle prices and total interest earned
     function update() external;
