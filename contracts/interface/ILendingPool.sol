@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.12;
 
-import {ERC20, IERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {AggregatorV3Interface} from "../chainlink/AggregatorV3Interface.sol";
-import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
-
 /**
  * LendingPool Contract for Chainlink workshop 
  * Assumptions & Constraints:
@@ -14,41 +10,41 @@ import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
  * - Can't withdraw if pool lacks liquidity
  * - No reserve
  */
-abstract contract ILendingPool is IERC20 {
+interface ILendingPool {
 
     // get TUSD balance of this contract
-    function balance() public virtual view returns (uint256);
+    function balance() external view returns (uint256);
 
     // get price of interest bearing token
-    function exchangeRate() public virtual view returns (uint256);
+    function exchangeRate() external view returns (uint256);
 
     // mint interest bearing TUSD
     // @param amount TUSD amount
-    function mint(uint256 amount) public virtual;
+    function mint(uint256 amount) external;
 
     // redeem pool tokens for TUSD
     // @param amount zToken amonut
-    function redeem(uint256 amount) public virtual;
+    function redeem(uint256 amount) external;
 
     // deposit LINK to use as collateral to borrow
-    function deposit(uint256 amount) public virtual;
+    function deposit(uint256 amount) external;
 
     // withdraw LINK used as collateral
     // could cause user to be undercollateralized
-    function withdraw(uint256 amount) public virtual;
+    function withdraw(uint256 amount) external;
 
     // borrow TUSD using LINK as collateral
-    function borrow(uint256 amount) public virtual;
+    function borrow(uint256 amount) external;
 
     // repay TUSD debt
-    function repay(uint256 amount) public virtual;
+    function repay(uint256 amount) external;
 
     // update on changes to user account
-    function _updateAccount(address account) internal virtual;
+    //function _updateAccount(address account) external;
 
     // update oracle prices and total interest earned
-    function update() public virtual;
+    function update() external;
 
     // liquidate account ETH if below threshold
-    function liquidate(address account, uint256 amount) public virtual;
+    function liquidate(address account, uint256 amount) external;
 }
