@@ -64,10 +64,10 @@ contract LendingPool is ILendingPool, ERC20 {
     // store users of this smart contract
     mapping(address => User) users;
 
-    // Ropsten testnet
+    // Rinkeby testnet
     constructor(address _tusd, address _link, address _linkPriceFeed) public ERC20("LendingPool", "LEP") {
-        tusd = IERC20(_tusd);
-        link = IERC20(_link);
+        tusd = IERC20(_tusd);  /// tUSD
+        link = IERC20(_link);  /// LINK
         linkPriceFeed = AggregatorV3Interface(_linkPriceFeed);  /// Chainlink PriceFeed (LINK/USD)
         totalBorrow = 0;
         totalCollateral = 0;
