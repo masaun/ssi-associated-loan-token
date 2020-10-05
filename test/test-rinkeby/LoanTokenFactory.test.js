@@ -8,7 +8,7 @@ LoanTokenFactory = require("../../build/contracts/LoanTokenFactory.json");
 
 
 /***
- * @dev - [Execution]: $ truffle test ./test/LoanTokenFactory.test.js --network rinkeby
+ * @dev - [Execution]: $ truffle test ./test/test-rinkeby/LoanTokenFactory.test.js --network rinkeby
  **/
 contract("LoanTokenFactory", function(accounts) {
 
@@ -18,13 +18,13 @@ contract("LoanTokenFactory", function(accounts) {
 
     const senderAddress = "0x718E3ea0B8C2911C5e54Cb4b9B2075fdd87B55a7";
     
-    it('Call getLatestPrice() of OilPriceOracle contract', async () => {
+    it('Send createLoanToken() of LoanTokenFactory contract', async () => {
         const _borrower = accounts[0]
         const _principal = 5
         const _length = 5
         const _rate = 1e17
 
-        let loanToken = await loanTokenFactory.methods.createLoanToken().send({ from: senderAddress });
+        let loanToken = await loanTokenFactory.methods.createLoanToken(_borrower, _principal, _length, _rate).send({ from: senderAddress });
         console.log("=== createLoanToken ===", loanToken)
     });
 
