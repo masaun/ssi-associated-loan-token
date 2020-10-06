@@ -22,7 +22,7 @@ contract("LoanTokenFactory", function(accounts) {
         const _borrower = accounts[0]
         const _principal = 5
         const _length = 5
-        const _rate = 1e17
+        const _rate = web3.utils.toWei('1', 'ether')  /// 1%
 
         let loanToken = await loanTokenFactory.methods.createLoanToken(_borrower, _principal, _length, _rate).send({ from: senderAddress });
         console.log("=== createLoanToken ===", loanToken)
