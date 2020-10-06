@@ -3,7 +3,7 @@ require('dotenv').config();
 const Web3 = require('web3');
 const web3 = new Web3('https://rinkeby.infura.io/v3/' + process.env.INFURA_KEY);
 
-let LoanTokenFactory= {};
+let LoanTokenFactory = {};
 LoanTokenFactory = require("../../build/contracts/LoanTokenFactory.json");
 
 
