@@ -18,12 +18,12 @@ contract("LendingPool", function(accounts) {
     const lendingPoolAddr = LendingPool["networks"]["4"]["address"];
     const lendingPool = new web3.eth.Contract(lendingPoolABI, lendingPoolAddr);
     
-    it('Call balance() of LendingPool contract', async () => {  /// Success
+    it('Call balance() of LendingPool contract', async () => {         /// Success
         let _balance = await lendingPool.methods.balance().call();
         console.log("=== balance() ===", _balance);
     });
 
-    it('Call exchangeRate() of LendingPool contract', async () => {  /// Success
+    it('Call exchangeRate() of LendingPool contract', async () => {    /// Success
         let _exchangeRate = await lendingPool.methods.exchangeRate().call();
         console.log("=== exchangeRate() ===", _exchangeRate);
     });
