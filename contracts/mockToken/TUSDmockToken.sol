@@ -9,7 +9,7 @@ import { ERC20, IERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  **/
 contract TUSDmockToken is ERC20 {
 
-    constructor() ERC20Detailed("TUSD mock Token", "TUSD mock", 18) public {
+    constructor() ERC20("TUSD mock Token", "TUSD mock") public {
         uint initialSupply = 1e8 * 1e18;  /// Initial Supply amount is 100M
         address initialTokenHolder = msg.sender;
         _mint(initialTokenHolder, initialSupply);
