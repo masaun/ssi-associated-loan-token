@@ -65,7 +65,7 @@ contract LendingPool is ILendingPool, ERC20 {
     mapping(address => User) users;
 
     // Rinkeby testnet
-    constructor(address _tusd, address _link, address _linkPriceFeed) public ERC20("Interest Bearing TUSD", "iTUSD") {
+    constructor(address _tusd, address _link, address _linkPriceFeed) public ERC20("Interest Bearing TUSD", "iTUSD") {  /// [Note]: Create "Interest bearing TUSD" = "iTUSD"  (like aDAI of aToken in AAVE)
         tusd = IERC20(_tusd);  /// tUSD
         link = IERC20(_link);  /// LINK
         linkPriceFeed = AggregatorV3Interface(_linkPriceFeed);  /// Chainlink PriceFeed (LINK/USD)
