@@ -3,8 +3,10 @@ require('dotenv').config();
 const Web3 = require('web3');
 const web3 = new Web3('https://rinkeby.infura.io/v3/' + process.env.INFURA_KEY);
 
-let LendingPool= {};
+let LendingPool = {};
+let TUSDmockToken = {}; 
 LendingPool = require("../../build/contracts/LendingPool.json");
+TUSDmockToken = require("../../build/contracts/TUSDmockToken.json");
 
 const senderAddress = "0x718E3ea0B8C2911C5e54Cb4b9B2075fdd87B55a7";
 
@@ -14,9 +16,22 @@ const senderAddress = "0x718E3ea0B8C2911C5e54Cb4b9B2075fdd87B55a7";
  **/
 contract("LendingPool", function(accounts) {
 
-    const lendingPoolABI = LendingPool.abi;
-    const lendingPoolAddr = LendingPool["networks"]["4"]["address"];
-    const lendingPool = new web3.eth.Contract(lendingPoolABI, lendingPoolAddr);
+    let lendingPool;
+    let tUSD;
+
+    before('Setup contracts', async () => {
+        const lendingPoolABI = LendingPool.abi;
+        const lendingPoolAddr = LendingPool["networks"]["4"]["address"];
+        lendingPool = new web3.eth.Contract(lendingPoolABI, lendingPoolAddr); 
+
+        const tUSDmockTokenABI = TUSDmockToken.abi;
+        const tUSDmockTokenAddr = TUSDmockToken["networks"]["4"]["address"];
+        tUSD = new web3.eth.Contract(tUSDmockTokenABI, tUSDmockTokenAddr); 
+    });
+
+    // const lendingPoolABI = LendingPool.abi;
+    // const lendingPoolAddr = LendingPool["networks"]["4"]["address"];
+    // const lendingPool = new web3.eth.Contract(lendingPoolABI, lendingPoolAddr);
     
     it('Call balance() of LendingPool contract', async () => {         /// Success
         let _balance = await lendingPool.methods.balance().call();
@@ -34,7 +49,9 @@ contract("LendingPool", function(accounts) {
     });
 
     it('Send mint() of LendingPool contract', async () => {
-        const _mintAmount = 100
+
+
+        const _mintAmount = 1;
         const mintAmount = web3.utils.toWei(`${_mintAmount}`, 'ether');
 
         let result = await lendingPool.methods.mint(mintAmount).send({ from: senderAddress });
