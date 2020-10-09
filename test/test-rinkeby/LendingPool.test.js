@@ -33,6 +33,11 @@ contract("LendingPool", function(accounts) {
         console.log("=== fetchlinkPrice() ===", _fetchlinkPrice);
     });
 
+    it('Send mint() of LendingPool contract', async () => {
+        let result = await lendingPool.methods.mint(amount).send({ from: senderAddress });
+        console.log("=== mint() ===", result);
+    });    
+
 });
 
 
