@@ -19,14 +19,17 @@ contract("LendingPool", function(accounts) {
     let lendingPool;
     let tUSD;
 
+    let LENDING_POOL;
+    let TUSD;
+
     before('Setup contracts', async () => {
         const lendingPoolABI = LendingPool.abi;
-        const lendingPoolAddr = LendingPool["networks"]["4"]["address"];
-        lendingPool = new web3.eth.Contract(lendingPoolABI, lendingPoolAddr); 
+        LENDING_POOL = LendingPool["networks"]["4"]["address"];
+        lendingPool = new web3.eth.Contract(lendingPoolABI, LENDING_POOL); 
 
         const tUSDmockTokenABI = TUSDmockToken.abi;
-        const tUSDmockTokenAddr = TUSDmockToken["networks"]["4"]["address"];
-        tUSD = new web3.eth.Contract(tUSDmockTokenABI, tUSDmockTokenAddr); 
+        TUSD = TUSDmockToken["networks"]["4"]["address"];
+        tUSD = new web3.eth.Contract(tUSDmockTokenABI, TUSD); 
     });
 
     // const lendingPoolABI = LendingPool.abi;
@@ -49,11 +52,14 @@ contract("LendingPool", function(accounts) {
     });
 
     it('Send mint() of LendingPool contract', async () => {
-
-
+        /// minted amount
         const _mintAmount = 1;
         const mintAmount = web3.utils.toWei(`${_mintAmount}`, 'ether');
 
+        /// Execute approve() for transferFrom()
+        let approved = await tUSD.methods.approve(LENDING_POOL, mintAmount); 
+
+        /// Execute mint()
         let result = await lendingPool.methods.mint(mintAmount).send({ from: senderAddress });
         console.log("=== mint() ===", result);
     });    
