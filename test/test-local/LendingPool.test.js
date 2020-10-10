@@ -5,12 +5,12 @@
 require('dotenv').config();
 
 const Web3 = require('web3');
-const web3 = new Web3('http://localhost:8545');
+const web3 = new Web3(new Web3.providers.WebsocketProvider('ws://localhost:8545'));
 
 let LendingPool = {};
 let TUSDmockToken = {}; 
-LendingPool = require("../../build/contracts/LendingPool.json");
-TUSDmockToken = require("../../build/contracts/TUSDmockToken.json");
+LendingPool = artifacts.require("LendingPool");
+TUSDmockToken = artifacts.require("TUSDmockToken");
 
 
 /***
@@ -28,15 +28,7 @@ contract("LendingPool", function(accounts) {
     let LENDING_POOL;
     let TUSD;
 
-    before('Setup contracts', async () => {
-        // const lendingPoolABI = LendingPool.abi;
-        // LENDING_POOL = LendingPool.address;
-        // lendingPool = new web3.eth.Contract(lendingPoolABI, LENDING_POOL); 
-
-        // const tUSDmockTokenABI = TUSDmockToken.abi;
-        // TUSD = TUSDmockToken.address;
-        // tUSD = new web3.eth.Contract(tUSDmockTokenABI, TUSD); 
-
+    it('Setup contracts', async () => {
         // Get the contract instance.
         const networkId = await web3.eth.net.getId();
         if (LendingPool.networks) {
