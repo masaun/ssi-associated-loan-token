@@ -77,10 +77,10 @@ contract("LendingPool", function(accounts) {
         const mintAmount = web3.utils.toWei(`${_mintAmount}`, 'ether');
 
         /// Mint tUSD for senderAddress
-        let res1 = await tUSD.methods.mintTo(senderAddress, mintAmount); 
+        let res1 = await tUSD.methods.mintTo(senderAddress, mintAmount).send({ from: senderAddress }); 
 
         /// Execute approve() for transferFrom()
-        let approved = await tUSD.methods.approve(LENDING_POOL, mintAmount); 
+        let approved = await tUSD.methods.approve(LENDING_POOL, mintAmount).send({ from: senderAddress }); 
 
         /// Execute mint()
         let result = await lendingPool.methods.mint(mintAmount).send({ from: senderAddress });
