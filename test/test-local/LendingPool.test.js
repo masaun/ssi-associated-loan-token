@@ -71,9 +71,13 @@ contract("LendingPool", function(accounts) {
     });
 
     it('Send mint() of LendingPool contract', async () => {
+
         /// minted amount
-        const _mintAmount = 1;
+        const _mintAmount = 100;
         const mintAmount = web3.utils.toWei(`${_mintAmount}`, 'ether');
+
+        /// Mint tUSD for senderAddress
+        let res1 = await tUSD.methods.mintTo(senderAddress, mintAmount); 
 
         /// Execute approve() for transferFrom()
         let approved = await tUSD.methods.approve(LENDING_POOL, mintAmount); 

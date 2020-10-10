@@ -15,4 +15,7 @@ contract TUSDmockToken is ERC20 {
         _mint(initialTokenHolder, initialSupply);
     }
 
+    function mintTo(address to, uint mintAmount) public returns (bool) {
+        _mint(to, mintAmount);
+    }    
 }
