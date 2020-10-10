@@ -51,6 +51,19 @@ contract("LendingPool", function(accounts) {
         console.log("=== fetchlinkPrice() ===", _fetchlinkPrice);
     });
 
+    it('deposit LINK to use as collateral to borrow', async () => {
+        /// minted amount
+        const _depositAmount = 1;  /// 1 LINK (Rinkeby)
+        const depositAmount = web3.utils.toWei(`${_depositAmount}`, 'ether');
+
+        /// Execute approve() for transferFrom()
+        let approved = await tUSD.methods.approve(LENDING_POOL, depositAmount).send({ from: senderAddress }); 
+
+        /// Execute deposit()
+        let result = await lendingPool.methods.deposit(depositAmount).send({ from: senderAddress });
+        console.log("=== deposit() ===", result);
+    });    
+
     it('Send mint() of LendingPool contract', async () => {
         /// minted amount
         const _mintAmount = 1;
