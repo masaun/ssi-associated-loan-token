@@ -60,15 +60,15 @@ contract("LendingPool", function(accounts) {
         console.log("=== balance() ===", _balance);
     });
 
-    it('Call exchangeRate() of LendingPool contract', async () => {    /// Success
-        let _exchangeRate = await lendingPool.methods.exchangeRate().call();
-        console.log("=== exchangeRate() ===", _exchangeRate);
-    });
+    // it('Call exchangeRate() of LendingPool contract', async () => {
+    //     let _exchangeRate = await lendingPool.methods.exchangeRate().call();
+    //     console.log("=== exchangeRate() ===", _exchangeRate);
+    // });
 
-    it('Call fetchlinkPrice() of LendingPool contract', async () => {  /// Success
-        let _fetchlinkPrice = await lendingPool.methods.fetchlinkPrice().call();
-        console.log("=== fetchlinkPrice() ===", _fetchlinkPrice);
-    });
+    // it('Call fetchlinkPrice() of LendingPool contract', async () => {
+    //     let _fetchlinkPrice = await lendingPool.methods.fetchlinkPrice().call();
+    //     console.log("=== fetchlinkPrice() ===", _fetchlinkPrice);
+    // });
 
     it('Send mint() of LendingPool contract', async () => {
 
@@ -82,9 +82,9 @@ contract("LendingPool", function(accounts) {
         /// Execute approve() for transferFrom()
         let approved = await tUSD.methods.approve(LENDING_POOL, mintAmount).send({ from: senderAddress }); 
 
-        /// Execute mint()
-        let result = await lendingPool.methods.mint(mintAmount).send({ from: senderAddress });
-        console.log("=== mint() ===", result);
+        /// Execute mint() --> Can't execute due to need returned value of fetchlinkPrice() that need rinkeby
+        //let result = await lendingPool.methods.mint(mintAmount).send({ from: senderAddress });
+        //console.log("=== mint() ===", result);
     });    
 
 });
