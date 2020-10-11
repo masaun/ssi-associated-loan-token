@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const Tx = require('ethereumjs-tx');
+const Tx = require('ethereumjs-tx').Transaction;
 const Web3 = require('web3');
 const provider = new Web3.providers.HttpProvider(`https://rinkeby.infura.io/v3/${ process.env.INFURA_KEY }`);
 const web3 = new Web3(provider);
@@ -75,11 +75,11 @@ contract("LendingPool", function(accounts) {
 
         /// Execute approve() for transferFrom()
         let inputData1 = await tUSD.methods.approve(LENDING_POOL, mintAmount).encodeABI();
-        let transaction = await sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData1)
+        let transaction1 = await sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData1)
 
         /// Execute mint()
         let inputData2 = await lendingPool.methods.mint(mintAmount).encodeABI();
-        let transaction = await sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData2)
+        let transaction2 = await sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData2)
     });    
 
 });
