@@ -10,7 +10,8 @@ let TUSDmockToken = {};
 LendingPool = require("../../build/contracts/LendingPool.json");
 TUSDmockToken = require("../../build/contracts/TUSDmockToken.json");
 
-const senderAddress = "0x718E3ea0B8C2911C5e54Cb4b9B2075fdd87B55a7";
+const walletAddress = process.env.WALLET_ADDRESS;
+const privateKey = process.env.PRIVATE_KEY;
 
 
 /***
@@ -59,11 +60,12 @@ contract("LendingPool", function(accounts) {
         const depositAmount = web3.utils.toWei(`${_depositAmount}`, 'ether');
 
         /// Execute approve() for transferFrom()
-        let approved = await tUSD.methods.approve(LENDING_POOL, depositAmount).send({ from: senderAddress }); 
+        let inputData1 = await tUSD.methods.approve(LENDING_POOL, depositAmount).encodeABI();
+        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData1)
 
         /// Execute deposit()
-        let result = await lendingPool.methods.deposit(depositAmount).send({ from: senderAddress });
-        console.log("=== deposit() ===", result);
+        let inputData2 = await lendingPool.methods.deposit(depositAmount).encodeABI();
+        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData2)
     });    
 
     it('Send mint() of LendingPool contract', async () => {
@@ -72,11 +74,12 @@ contract("LendingPool", function(accounts) {
         const mintAmount = web3.utils.toWei(`${_mintAmount}`, 'ether');
 
         /// Execute approve() for transferFrom()
-        let approved = await tUSD.methods.approve(LENDING_POOL, mintAmount).send({ from: senderAddress }); 
+        let inputData1 = await tUSD.methods.approve(LENDING_POOL, mintAmount).encodeABI();
+        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData1)
 
         /// Execute mint()
-        let result = await lendingPool.methods.mint(mintAmount).send({ from: senderAddress });
-        console.log("=== mint() ===", result);
+        let inputData2 = await lendingPool.methods.mint(mintAmount).encodeABI();
+        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData2)
     });    
 
 });
