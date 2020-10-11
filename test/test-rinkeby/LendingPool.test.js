@@ -61,11 +61,11 @@ contract("LendingPool", function(accounts) {
 
         /// Execute approve() for transferFrom()
         let inputData1 = await tUSD.methods.approve(LENDING_POOL, depositAmount).encodeABI();
-        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData1)
+        let transaction1 = await sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData1)
 
         /// Execute deposit()
         let inputData2 = await lendingPool.methods.deposit(depositAmount).encodeABI();
-        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData2)
+        let transaction2 = await sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData2)
     });    
 
     it('Send mint() of LendingPool contract', async () => {
