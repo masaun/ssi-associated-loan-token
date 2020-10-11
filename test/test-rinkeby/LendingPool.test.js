@@ -1,12 +1,17 @@
 require('dotenv').config();
 
+const Tx = require('ethereumjs-tx');
 const Web3 = require('web3');
-const web3 = new Web3('https://rinkeby.infura.io/v3/' + process.env.INFURA_KEY);
+const provider = new Web3.providers.HttpProvider(`https://rinkeby.infura.io/v3/${ process.env.INFURA_KEY }`);
+const web3 = new Web3(provider);
 
-let LendingPool= {};
+let LendingPool = {};
+let TUSDmockToken = {}; 
 LendingPool = require("../../build/contracts/LendingPool.json");
+TUSDmockToken = require("../../build/contracts/TUSDmockToken.json");
 
-const senderAddress = "0x718E3ea0B8C2911C5e54Cb4b9B2075fdd87B55a7";
+const walletAddress = process.env.WALLET_ADDRESS;
+const privateKey = process.env.PRIVATE_KEY;
 
 
 /***
@@ -14,9 +19,25 @@ const senderAddress = "0x718E3ea0B8C2911C5e54Cb4b9B2075fdd87B55a7";
  **/
 contract("LendingPool", function(accounts) {
 
-    const lendingPoolABI = LendingPool.abi;
-    const lendingPoolAddr = LendingPool["networks"]["4"]["address"];
-    const lendingPool = new web3.eth.Contract(lendingPoolABI, lendingPoolAddr);
+    let lendingPool;
+    let tUSD;
+
+    let LENDING_POOL;
+    let TUSD;
+
+    before('Setup contracts', async () => {
+        const lendingPoolABI = LendingPool.abi;
+        LENDING_POOL = LendingPool["networks"]["4"]["address"];
+        lendingPool = new web3.eth.Contract(lendingPoolABI, LENDING_POOL); 
+
+        const tUSDmockTokenABI = TUSDmockToken.abi;
+        TUSD = TUSDmockToken["networks"]["4"]["address"];
+        tUSD = new web3.eth.Contract(tUSDmockTokenABI, TUSD); 
+    });
+
+    // const lendingPoolABI = LendingPool.abi;
+    // const lendingPoolAddr = LendingPool["networks"]["4"]["address"];
+    // const lendingPool = new web3.eth.Contract(lendingPoolABI, lendingPoolAddr);
     
     it('Call balance() of LendingPool contract', async () => {         /// Success
         let _balance = await lendingPool.methods.balance().call();
@@ -33,9 +54,74 @@ contract("LendingPool", function(accounts) {
         console.log("=== fetchlinkPrice() ===", _fetchlinkPrice);
     });
 
+    it('deposit LINK to use as collateral to borrow', async () => {
+        /// minted amount
+        const _depositAmount = 1;  /// 1 LINK (Rinkeby)
+        const depositAmount = web3.utils.toWei(`${_depositAmount}`, 'ether');
+
+        /// Execute approve() for transferFrom()
+        let inputData1 = await tUSD.methods.approve(LENDING_POOL, depositAmount).encodeABI();
+        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData1)
+
+        /// Execute deposit()
+        let inputData2 = await lendingPool.methods.deposit(depositAmount).encodeABI();
+        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData2)
+    });    
+
+    it('Send mint() of LendingPool contract', async () => {
+        /// minted amount
+        const _mintAmount = 1;
+        const mintAmount = web3.utils.toWei(`${_mintAmount}`, 'ether');
+
+        /// Execute approve() for transferFrom()
+        let inputData1 = await tUSD.methods.approve(LENDING_POOL, mintAmount).encodeABI();
+        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData1)
+
+        /// Execute mint()
+        let inputData2 = await lendingPool.methods.mint(mintAmount).encodeABI();
+        sendTransaction(walletAddress, privateKey, LENDING_POOL, inputData2)
+    });    
+
 });
 
 
+/***
+ * @notice - Sign and Broadcast the transaction
+ **/
+async function sendTransaction(walletAddress, privateKey, contractAddress, inputData) {
+    try {
+        const txCount = await web3.eth.getTransactionCount(walletAddress);
+        const nonce = await web3.utils.toHex(txCount);
+        console.log('=== txCount, nonce ===', txCount, nonce);
 
+        /// Build the transaction
+        const txObject = {
+            nonce:    web3.utils.toHex(txCount),
+            from:     walletAddress,
+            to:       contractAddress,  /// Contract address which will be executed
+            value:    web3.utils.toHex(web3.utils.toWei('0', 'ether')),
+            gasLimit: web3.utils.toHex(2100000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('6', 'gwei')),
+            data: inputData  
+        }
+        console.log('=== txObject ===', txObject)
 
+        /// Sign the transaction
+        privateKey = Buffer.from(privateKey, 'hex');
+        let tx = new Tx(txObject, { 'chain': 'rinkeby'});
+        tx.sign(privateKey);
 
+        const serializedTx = tx.serialize();
+        const raw = '0x' + serializedTx.toString('hex');
+
+        /// Broadcast the transaction
+        const transaction = await web3.eth.sendSignedTransaction(raw);
+        console.log('=== transaction ===', transaction)
+
+        /// Return the result above
+        return transaction;
+    } catch(e) {
+        console.log('=== e ===', e);
+        return String(e);
+    }
+}

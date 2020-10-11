@@ -1,5 +1,5 @@
 {
-  "name": "loan-next-world",
+  "name": "ssi-based-loan",
   "version": "1.0.0",
   "description": "",
   "directories": {
@@ -22,7 +22,8 @@
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.1.0",
     "dotenv": "^8.2.0",
-    "eth-block-tracker": "^4.4.3"
+    "eth-block-tracker": "^4.4.3",
+    "ethereumjs-tx": "^2.1.2"
   },
   "devDependencies": {}
 }
