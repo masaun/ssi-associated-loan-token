@@ -23,7 +23,7 @@ contract("LoanTokenFactory", function(accounts) {
     it('Send createLoanToken() of LoanTokenFactory contract', async () => {
         const _borrower = walletAddress
         const _principal = web3.utils.toWei('100', 'ether')  /// Principal amount(元本) = 100 token 
-        const _length = 1640304000   /// Timestamp for expire date (Note: block.timestamp >= expiry)
+        const _length = 31536000   /// Timestamp for setting expire date (Note: expiry = block.timestamp.add(length))
         const _rate = web3.utils.toWei('1', 'ether')  /// Borrow rate = 1%
 
         let inputData1 = await loanTokenFactory.methods.createLoanToken(_borrower, _principal, _length, _rate).encodeABI();

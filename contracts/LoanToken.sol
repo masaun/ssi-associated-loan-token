@@ -19,9 +19,9 @@ contract LoanToken is ILoanToken, ERC20, Ownable {
 
     address public borrower;
     uint256 public principal; /// Principal amount
-    uint256 public length;    /// Timestamp for expire date (Note: block.timestamp >= expiry)
+    uint256 public length;    /// Timestamp for setting expire date (Note: expiry = block.timestamp.add(length))
     uint256 public rate;      /// Borrow rate
-    uint256 public expiry;    /// Timestamp for expire date (Note: block.timestamp >= expiry)
+    uint256 public expiry;    /// Timestamp for setting expire date (Note: expiry = block.timestamp.add(length))
     bool public approved;
     IERC20 public token;
 
