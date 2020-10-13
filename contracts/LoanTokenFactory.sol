@@ -15,9 +15,9 @@ contract LoanTokenFactory {
     constructor() public {}
 
     /// @dev - Create new LoanToken
-    function createLoanToken(address _borrower, uint256 _principal, uint256 _length, uint256 _rate) public returns (LoanToken loanToken) {
+    function createLoanToken(address _borrower, uint256 _principal, uint256 _length, uint256 _rate) public returns (address _loanToken) {
         LoanToken loanToken = new LoanToken(_borrower, _principal, _length, _rate);
-        return loanToken;
+        return address(loanToken);
     }
 
 }
