@@ -1,9 +1,11 @@
-# SSI associated Loan Token
+# SSI associated Loan Token (※ In progress)
 
 ***
-## 【Introduction of SSI associated Loan Token】  (※ In progress)
+## 【Introduction of SSI associated Loan Token】 
 - This is the smart contract for creating SSI associated Loan Token
-  （Using the Ethr-DID-Registry contract of uPort for SSI）
+  - Create the loan token every borrowing (and repaying).
+   （Each loan token is created in the LoanTokenFactory.sol）
+  - Each loan token is associated with SSI (Use the Ethr-DID-Registry contract of uPort)
 
 
 &nbsp;
@@ -39,22 +41,28 @@ $ npm run test:rinkeby
 ***
 
 ## 【References】
-- [ETH Planet Hackathon / “Building the Next Digital World”]
-  https://ethplanet-hackathon.devfolio.co  
-  https://medium.com/ethplanet/ethplanet-hackathon-building-the-next-digital-world-2d0246027d78  
-
-<br>
-
 - [Truefi]
-  - Chainlink-workshop repo
-    https://github.com/hal909/chainlink-workshop
-  
-  - Workshop
-    https://youtu.be/JjotxeoVRuE
-
   - Loan Token
     https://github.com/trusttoken/truefi-spec#loantoken
     https://github.com/trusttoken/truefi-spec#loantoken-lifecycle
   
   - Trust-Token contract
     https://github.com/trusttoken/true-currencies/tree/master/contracts/trusttoken
+  
+  - Workshop
+    https://youtu.be/JjotxeoVRuE
+
+  - Chainlink-workshop repo
+    https://github.com/hal909/chainlink-workshop
+
+<br>
+
+- [Ethr-DID-Registry contract (from uPort)]:
+  - Ethr-DID-Registry contract
+    https://github.com/uport-project/ethr-did-registry
+
+  - Doc
+    https://developer.uport.me/categories/ethr-did-registry
+  
+
+
