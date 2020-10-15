@@ -1,8 +1,10 @@
-# loan-next-world_with_truefi📈
+# SSI associated Loan Token
 
 ***
-## 【Introduction of loan-next-world_with_truefi📈】
-- This is the smart contract for ...
+## 【Introduction of SSI associated Loan Token】  (※ In progress)
+- This is the smart contract for creating SSI associated Loan Token
+  （Using the Ethr-DID-Registry contract of uPort for SSI）
+
 
 &nbsp;
 
@@ -25,11 +27,6 @@ $ npm run migrate:rinkeby
 &nbsp;
 
 ## 【Test】
-- Testing for local
-```
-$ npm run test:rinkeby-oil
-```
-
 
 - Testing for all contract (※ `Rinkeby test network` )
 ```
@@ -43,10 +40,8 @@ $ npm run test:rinkeby
 
 ## 【References】
 - [ETH Planet Hackathon / “Building the Next Digital World”]
-  - Website
-    https://ethplanet-hackathon.devfolio.co
-  
-  - https://medium.com/ethplanet/ethplanet-hackathon-building-the-next-digital-world-2d0246027d78
+  https://ethplanet-hackathon.devfolio.co  
+  https://medium.com/ethplanet/ethplanet-hackathon-building-the-next-digital-world-2d0246027d78  
 
 <br>
 
@@ -59,9 +54,7 @@ $ npm run test:rinkeby
 
   - Loan Token
     https://github.com/trusttoken/truefi-spec#loantoken
+    https://github.com/trusttoken/truefi-spec#loantoken-lifecycle
   
   - Trust-Token contract
     https://github.com/trusttoken/true-currencies/tree/master/contracts/trusttoken
-  
-  - Fund raising
-    https://github.com/trusttoken/truefi-spec#loantoken-lifecycle
