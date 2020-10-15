@@ -20,7 +20,7 @@ contract("LoanTokenFactory", function(accounts) {
     const loanTokenFactoryAddr = LoanTokenFactory["networks"]["4"]["address"];
     const loanTokenFactory = new web3.eth.Contract(loanTokenFactoryABI, loanTokenFactoryAddr);
     
-    it('Send createLoanToken() of LoanTokenFactory contract', async () => {
+    it('Send createLoanToken() of LoanTokenFactory contract', async () => {  /// Success
         const _borrower = walletAddress
         const _principal = web3.utils.toWei('100', 'ether')  /// Principal amount(元本) = 100 token 
         const _length = 31536000   /// Timestamp for setting expire date (Note: expiry = block.timestamp.add(length))
